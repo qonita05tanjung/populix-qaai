@@ -126,7 +126,7 @@ jobs:
         with:
           path: site
 
-  deploy:
+  generate-report:
     needs: run-e2e
     runs-on: ubuntu-latest
     environment:
