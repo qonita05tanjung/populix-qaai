@@ -18,11 +18,12 @@
     "typescript": "^5.9.2"
   },
   "scripts": {
-    "wdio": "wdio run ./wdio.conf.ts",
     "eval:matrics": "node --import tsx ./node_modules/mocha/bin/_mocha --extension ts \"eval-matrics/test/spec/eval.ts\" --timeout 300000 --reporter mochawesome --reporter-options reportDir=reports,reportFilename=mocha-report,overwrite=false,html=true,json=true",
     "report:merge": "mochawesome-merge reports/*.json > reports/report.json",
     "report:html": "marge reports/report.json --reportDir reports --inline",
     "allure:generate": "allure generate --clean allure-results -o allure-report",
-    "allure:open": "allure open allure-report"
+    "allure:open": "allure open allure-report",
+    "web:login": "wdio run ./wdio.conf.ts --spec website/test/specs/login.ts",
+    "web:mov_rec": "wdio run ./wdio.conf.ts --spec website/test/specs/mov_rec.ts"
   }
 }

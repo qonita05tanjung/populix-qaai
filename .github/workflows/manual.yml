@@ -1,0 +1,64 @@
+name: Manual E2E (WDIO + Allure + Mochawesome)
+
+on:
+  workflow_dispatch:  # hanya bisa dijalankan manual dari tab Actions
+
+env:
+  TZ: Asia/Jakarta
+
+jobs:
+  run-e2e:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      # ====== TEST SEQUENCE ======
+      - name: Run web:login
+        run: npm run web:login
+
+      - name: Run web:mov_rec
+        run: npm run web:mov_rec
+
+      - name: Generate Allure report
+        run: npm run allure:generate
+
+      - name: Run eval:matrics (mochawesome)
+        run: npm run eval:matrics
+
+      - name: Merge mochawesome JSON
+        if: ${{ always() }}
+        run: |
+          if [ -d reports ]; then
+            npm run report:merge
+            npm run report:html
+          fi
+
+      # ====== ARTIFACTS ======
+      - name: Upload Allure report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: |
+            allure-report/**
+            allure-results/**
+          retention-days: 7
+
+      - name: Upload Mochawesome reports
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: mochawesome-reports
+          path: reports/**
+          retention-days: 7
