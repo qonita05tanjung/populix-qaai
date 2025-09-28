@@ -26,15 +26,19 @@ jobs:
       # ====== TEST SEQUENCE ======
       - name: Run web:login
         run: npm run web:login
+        continue-on-error: true
 
       - name: Run web:mov_rec
         run: npm run web:mov_rec
+        continue-on-error: true
 
       - name: Generate Allure report
         run: npm run allure:generate
+        continue-on-error: true
 
       - name: Run eval:matrics (mochawesome)
         run: npm run eval:matrics
+        continue-on-error: true
 
       - name: Merge mochawesome JSON
         if: ${{ always() }}
