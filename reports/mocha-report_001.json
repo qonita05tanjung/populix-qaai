@@ -1,0 +1,206 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 6,
+    "passes": 5,
+    "pending": 0,
+    "failures": 1,
+    "start": "2025-09-28T14:48:51.968Z",
+    "end": "2025-09-28T14:50:31.321Z",
+    "duration": 99353,
+    "testsRegistered": 6,
+    "passPercent": 83.33333333333334,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "35f073ef-d2fe-4702-acbe-07f7a349a695",
+      "title": "",
+      "fullFile": "/Users/qonitatanjung/Desktop/populix-qaai-3/eval-matrics/test/spec/eval.ts",
+      "file": "/eval-matrics/test/spec/eval.ts",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "42306957-df4a-4d90-b632-b5d023da3727",
+          "title": "Matrics Evaluation: ",
+          "fullFile": "/Users/qonitatanjung/Desktop/populix-qaai-3/eval-matrics/test/spec/eval.ts",
+          "file": "/eval-matrics/test/spec/eval.ts",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Query: \"The Godfather\"",
+              "fullTitle": "Matrics Evaluation:  Query: \"The Godfather\"",
+              "timedOut": false,
+              "duration": 20715,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const res=await import_api.default.get_reccomendation_movies(item.q);const res_path=await import_api.default.generate_response_by_title(item.q,res);const titles=import_extractor.default.extractTitlesFromJson(res_path);const k=item.k??10;if(item.expect_empty){console.log(\"// Empty-state expectation\");import_strict.default.equal(titles.length,0,`Expected empty result, but got ${titles.length} items.`);return}if(item.must_include?.length){const mrr=(0,import_metrics.mrrAtK)(titles,item.must_include,k);const min=item.min_mrr??.6;console.log(\"// must_include \\u2192 MRR\");import_strict.default.ok(mrr>=min,`Expected MRR to be at least ${min}, but got ${mrr}.`)}if(item.should_include_any?.length){const hits=titles.slice(0,k).map(t=>item.should_include_any.some(r=>t.toLowerCase().includes(String(r).toLowerCase())));const prec=(0,import_metrics.precisionAtK)(hits,Math.min(k,titles.length));const rec=(0,import_metrics.recallAtK)(titles,item.should_include_any);const ndcg=(0,import_metrics.ndcgAtK)(titles,item.should_include_any,k);const minP=item.min_precision??.3;const minR=item.min_recall??0;const minN=item.min_ndcg??.5;console.log(\"// should_include_any \\u2192 Precision / Recall / NDCG\");import_strict.default.ok(prec>=minP,`Expected Precision to be at least ${minP}, but got ${prec}.`);import_strict.default.ok(rec>=minR,`Expected Recall to be at least ${minR}, but got ${rec}.`);import_strict.default.ok(ndcg>=minN,`Expected NDCG to be at least ${minN}, but got ${ndcg}.`)}",
+              "err": {},
+              "uuid": "6503f236-0632-4b52-a2e5-66a42d4a1b20",
+              "parentUUID": "42306957-df4a-4d90-b632-b5d023da3727",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Query: \"science fiction\"",
+              "fullTitle": "Matrics Evaluation:  Query: \"science fiction\"",
+              "timedOut": false,
+              "duration": 20680,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "const res=await import_api.default.get_reccomendation_movies(item.q);const res_path=await import_api.default.generate_response_by_title(item.q,res);const titles=import_extractor.default.extractTitlesFromJson(res_path);const k=item.k??10;if(item.expect_empty){console.log(\"// Empty-state expectation\");import_strict.default.equal(titles.length,0,`Expected empty result, but got ${titles.length} items.`);return}if(item.must_include?.length){const mrr=(0,import_metrics.mrrAtK)(titles,item.must_include,k);const min=item.min_mrr??.6;console.log(\"// must_include \\u2192 MRR\");import_strict.default.ok(mrr>=min,`Expected MRR to be at least ${min}, but got ${mrr}.`)}if(item.should_include_any?.length){const hits=titles.slice(0,k).map(t=>item.should_include_any.some(r=>t.toLowerCase().includes(String(r).toLowerCase())));const prec=(0,import_metrics.precisionAtK)(hits,Math.min(k,titles.length));const rec=(0,import_metrics.recallAtK)(titles,item.should_include_any);const ndcg=(0,import_metrics.ndcgAtK)(titles,item.should_include_any,k);const minP=item.min_precision??.3;const minR=item.min_recall??0;const minN=item.min_ndcg??.5;console.log(\"// should_include_any \\u2192 Precision / Recall / NDCG\");import_strict.default.ok(prec>=minP,`Expected Precision to be at least ${minP}, but got ${prec}.`);import_strict.default.ok(rec>=minR,`Expected Recall to be at least ${minR}, but got ${rec}.`);import_strict.default.ok(ndcg>=minN,`Expected NDCG to be at least ${minN}, but got ${ndcg}.`)}",
+              "err": {
+                "message": "AssertionError: Expected Precision to be at least 0.4, but got 0.3.",
+                "estack": "AssertionError [ERR_ASSERTION]: Expected Precision to be at least 0.4, but got 0.3.\n    at Context.<anonymous> (eval-matrics/test/spec/eval.ts:58:16)",
+                "diff": "- false\n+ true\n"
+              },
+              "uuid": "a4337430-7cc5-42ae-9831-1cfb669913a8",
+              "parentUUID": "42306957-df4a-4d90-b632-b5d023da3727",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Query: \"sci-fi\"",
+              "fullTitle": "Matrics Evaluation:  Query: \"sci-fi\"",
+              "timedOut": false,
+              "duration": 18428,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const res=await import_api.default.get_reccomendation_movies(item.q);const res_path=await import_api.default.generate_response_by_title(item.q,res);const titles=import_extractor.default.extractTitlesFromJson(res_path);const k=item.k??10;if(item.expect_empty){console.log(\"// Empty-state expectation\");import_strict.default.equal(titles.length,0,`Expected empty result, but got ${titles.length} items.`);return}if(item.must_include?.length){const mrr=(0,import_metrics.mrrAtK)(titles,item.must_include,k);const min=item.min_mrr??.6;console.log(\"// must_include \\u2192 MRR\");import_strict.default.ok(mrr>=min,`Expected MRR to be at least ${min}, but got ${mrr}.`)}if(item.should_include_any?.length){const hits=titles.slice(0,k).map(t=>item.should_include_any.some(r=>t.toLowerCase().includes(String(r).toLowerCase())));const prec=(0,import_metrics.precisionAtK)(hits,Math.min(k,titles.length));const rec=(0,import_metrics.recallAtK)(titles,item.should_include_any);const ndcg=(0,import_metrics.ndcgAtK)(titles,item.should_include_any,k);const minP=item.min_precision??.3;const minR=item.min_recall??0;const minN=item.min_ndcg??.5;console.log(\"// should_include_any \\u2192 Precision / Recall / NDCG\");import_strict.default.ok(prec>=minP,`Expected Precision to be at least ${minP}, but got ${prec}.`);import_strict.default.ok(rec>=minR,`Expected Recall to be at least ${minR}, but got ${rec}.`);import_strict.default.ok(ndcg>=minN,`Expected NDCG to be at least ${minN}, but got ${ndcg}.`)}",
+              "err": {},
+              "uuid": "9d8447dd-2d38-4227-bd8c-b9606ebdcfe2",
+              "parentUUID": "42306957-df4a-4d90-b632-b5d023da3727",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Query: \"interstelar\"",
+              "fullTitle": "Matrics Evaluation:  Query: \"interstelar\"",
+              "timedOut": false,
+              "duration": 18634,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const res=await import_api.default.get_reccomendation_movies(item.q);const res_path=await import_api.default.generate_response_by_title(item.q,res);const titles=import_extractor.default.extractTitlesFromJson(res_path);const k=item.k??10;if(item.expect_empty){console.log(\"// Empty-state expectation\");import_strict.default.equal(titles.length,0,`Expected empty result, but got ${titles.length} items.`);return}if(item.must_include?.length){const mrr=(0,import_metrics.mrrAtK)(titles,item.must_include,k);const min=item.min_mrr??.6;console.log(\"// must_include \\u2192 MRR\");import_strict.default.ok(mrr>=min,`Expected MRR to be at least ${min}, but got ${mrr}.`)}if(item.should_include_any?.length){const hits=titles.slice(0,k).map(t=>item.should_include_any.some(r=>t.toLowerCase().includes(String(r).toLowerCase())));const prec=(0,import_metrics.precisionAtK)(hits,Math.min(k,titles.length));const rec=(0,import_metrics.recallAtK)(titles,item.should_include_any);const ndcg=(0,import_metrics.ndcgAtK)(titles,item.should_include_any,k);const minP=item.min_precision??.3;const minR=item.min_recall??0;const minN=item.min_ndcg??.5;console.log(\"// should_include_any \\u2192 Precision / Recall / NDCG\");import_strict.default.ok(prec>=minP,`Expected Precision to be at least ${minP}, but got ${prec}.`);import_strict.default.ok(rec>=minR,`Expected Recall to be at least ${minR}, but got ${rec}.`);import_strict.default.ok(ndcg>=minN,`Expected NDCG to be at least ${minN}, but got ${ndcg}.`)}",
+              "err": {},
+              "uuid": "20018e02-82a0-4db5-b4a4-e19896c06209",
+              "parentUUID": "42306957-df4a-4d90-b632-b5d023da3727",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Query: \"cars 2006\"",
+              "fullTitle": "Matrics Evaluation:  Query: \"cars 2006\"",
+              "timedOut": false,
+              "duration": 18638,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const res=await import_api.default.get_reccomendation_movies(item.q);const res_path=await import_api.default.generate_response_by_title(item.q,res);const titles=import_extractor.default.extractTitlesFromJson(res_path);const k=item.k??10;if(item.expect_empty){console.log(\"// Empty-state expectation\");import_strict.default.equal(titles.length,0,`Expected empty result, but got ${titles.length} items.`);return}if(item.must_include?.length){const mrr=(0,import_metrics.mrrAtK)(titles,item.must_include,k);const min=item.min_mrr??.6;console.log(\"// must_include \\u2192 MRR\");import_strict.default.ok(mrr>=min,`Expected MRR to be at least ${min}, but got ${mrr}.`)}if(item.should_include_any?.length){const hits=titles.slice(0,k).map(t=>item.should_include_any.some(r=>t.toLowerCase().includes(String(r).toLowerCase())));const prec=(0,import_metrics.precisionAtK)(hits,Math.min(k,titles.length));const rec=(0,import_metrics.recallAtK)(titles,item.should_include_any);const ndcg=(0,import_metrics.ndcgAtK)(titles,item.should_include_any,k);const minP=item.min_precision??.3;const minR=item.min_recall??0;const minN=item.min_ndcg??.5;console.log(\"// should_include_any \\u2192 Precision / Recall / NDCG\");import_strict.default.ok(prec>=minP,`Expected Precision to be at least ${minP}, but got ${prec}.`);import_strict.default.ok(rec>=minR,`Expected Recall to be at least ${minR}, but got ${rec}.`);import_strict.default.ok(ndcg>=minN,`Expected NDCG to be at least ${minN}, but got ${ndcg}.`)}",
+              "err": {},
+              "uuid": "f90dc5b9-aa46-4e8a-933d-02ad09d0268a",
+              "parentUUID": "42306957-df4a-4d90-b632-b5d023da3727",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Query: \"zzxxqypl\"",
+              "fullTitle": "Matrics Evaluation:  Query: \"zzxxqypl\"",
+              "timedOut": false,
+              "duration": 2249,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const res=await import_api.default.get_reccomendation_movies(item.q);const res_path=await import_api.default.generate_response_by_title(item.q,res);const titles=import_extractor.default.extractTitlesFromJson(res_path);const k=item.k??10;if(item.expect_empty){console.log(\"// Empty-state expectation\");import_strict.default.equal(titles.length,0,`Expected empty result, but got ${titles.length} items.`);return}if(item.must_include?.length){const mrr=(0,import_metrics.mrrAtK)(titles,item.must_include,k);const min=item.min_mrr??.6;console.log(\"// must_include \\u2192 MRR\");import_strict.default.ok(mrr>=min,`Expected MRR to be at least ${min}, but got ${mrr}.`)}if(item.should_include_any?.length){const hits=titles.slice(0,k).map(t=>item.should_include_any.some(r=>t.toLowerCase().includes(String(r).toLowerCase())));const prec=(0,import_metrics.precisionAtK)(hits,Math.min(k,titles.length));const rec=(0,import_metrics.recallAtK)(titles,item.should_include_any);const ndcg=(0,import_metrics.ndcgAtK)(titles,item.should_include_any,k);const minP=item.min_precision??.3;const minR=item.min_recall??0;const minN=item.min_ndcg??.5;console.log(\"// should_include_any \\u2192 Precision / Recall / NDCG\");import_strict.default.ok(prec>=minP,`Expected Precision to be at least ${minP}, but got ${prec}.`);import_strict.default.ok(rec>=minR,`Expected Recall to be at least ${minR}, but got ${rec}.`);import_strict.default.ok(ndcg>=minN,`Expected NDCG to be at least ${minN}, but got ${ndcg}.`)}",
+              "err": {},
+              "uuid": "805959e9-0953-4837-9b5b-5bcf2bb80eab",
+              "parentUUID": "42306957-df4a-4d90-b632-b5d023da3727",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "6503f236-0632-4b52-a2e5-66a42d4a1b20",
+            "9d8447dd-2d38-4227-bd8c-b9606ebdcfe2",
+            "20018e02-82a0-4db5-b4a4-e19896c06209",
+            "f90dc5b9-aa46-4e8a-933d-02ad09d0268a",
+            "805959e9-0953-4837-9b5b-5bcf2bb80eab"
+          ],
+          "failures": [
+            "a4337430-7cc5-42ae-9831-1cfb669913a8"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 99344,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 600000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 300000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "11.7.2"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mocha-report",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "reports",
+        "reportFilename": "mocha-report",
+        "overwrite": "false",
+        "html": "true",
+        "json": "true"
+      },
+      "version": "6.3.0"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{ "q": "The Godfather", "must_include": ["The Godfather"], "k": 3, "min_mrr": 0.7 }
+{ "q": "science fiction", "should_include_any": ["Interstellar", "The Matrix", "Inception", "Gravity", "The Martian"], "k": 10, "min_ndcg": 0.6, "min_precision": 0.4 }
+{ "q": "sci-fi", "should_include_any": ["Interstellar", "The Matrix", "Inception", "Gravity", "The Martian"], "k": 10}
+{ "q": "interstelar", "must_include": ["Interstellar"], "k": 5, "min_mrr": 0.5 }
+{ "q": "cars 2006", "should_include_any": ["Cars"], "k": 5, "min_ndcg": 0.5 }
+{ "q": "zzxxqypl", "expect_empty": true, "k": 5 }
