@@ -1,7 +1,12 @@
-name: Manual Trigger
+name: Manual
 
 on:
-  workflow_dispatch:  # hanya bisa dijalankan manual dari tab Actions
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write         
+  id-token: write      
 
 env:
   TZ: Asia/Jakarta
@@ -9,13 +14,10 @@ env:
 jobs:
   run-e2e:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js 20
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
@@ -23,46 +25,68 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      # ====== TEST SEQUENCE ======
+      
       - name: Run web:login
+        id: web_login
         run: npm run web:login
         continue-on-error: true
 
       - name: Run web:mov_rec
+        id: web_mov_rec
         run: npm run web:mov_rec
         continue-on-error: true
 
       - name: Generate Allure report
+        id: allure_generate
         run: npm run allure:generate
         continue-on-error: true
 
       - name: Run eval:matrics (mochawesome)
+        id: eval_matrics
         run: npm run eval:matrics
         continue-on-error: true
 
+     
       - name: Merge mochawesome JSON
-        if: ${{ always() }}
         run: |
           if [ -d reports ]; then
-            npm run report:merge
-            npm run report:html
+            npm run report:merge || true
+            npm run report:html || true
           fi
 
-      # ====== ARTIFACTS ======
-      - name: Upload Allure report
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-report
-          path: |
-            allure-report/**
-            allure-results/**
-          retention-days: 7
+      
+      - name: Prepare site folder
+        run: |
+          mkdir -p site
+          if [ -d allure-report ]; then
+            mkdir -p site/allure
+            cp -r allure-report/* site/allure/
+          fi
+          if [ -d reports ]; then
+            mkdir -p site/mochawesome
+            cp -r reports/* site/mochawesome/
+          fi
+          
+          cat > site/index.html <<'HTML'
+          <h2>Test Reports</h2>
+          <ul>
+            <li><a href="./allure/index.html">Allure Report</a></li>
+            <li><a href="./mochawesome/mocha-report.html">Mochawesome Report</a> (atau pilih file .html lain)</li>
+          </ul>
+          HTML
 
-      - name: Upload Mochawesome reports
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: mochawesome-reports
-          path: reports/**
-          retention-days: 7
+          path: site
+
+  deploy:
+    needs: run-e2e
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
