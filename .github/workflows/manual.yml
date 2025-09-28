@@ -1,4 +1,4 @@
-name: Manual E2E (WDIO + Allure + Mochawesome)
+name: Manual Trigger
 
 on:
   workflow_dispatch:  # hanya bisa dijalankan manual dari tab Actions
