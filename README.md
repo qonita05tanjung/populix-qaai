@@ -6,63 +6,71 @@ Ikuti langkah di bawah biar semuanya jalan mulus.
 📦 Persiapan
 
 Pastikan sudah terpasang:
+* Node.js v20
+* Clone repo dari GitHub
+* Buka di code editor favoritmu
 
-Node.js v20
+Jalankan ini untuk install semua dependency
 
-Clone repo dari GitHub
-
-Buka di code editor favoritmu
-
-Jalankan:
-
+```bash
 npm i
+```
 
 
-untuk install semua dependency
 
 ▶️ Cara Menjalankan
 Web Automation
 
 Fitur Login
 
+```bash
 npm run web:login
+```
 
 
 Fitur Movie Recommendation
 
+```bash
 npm run web:mov_rec
+```
 
 
 ℹ️ Secara default, automation berjalan dengan mode headless.
-Kalau mau lihat browser-nya jalan, hapus --headless di file wdio.conf.ts.
+Kalau mau lihat browser-nya jalan, hapus **--headless** di file **wdio.conf.ts.**
 
 🎬 Movie Recommendation Evaluation
 
 Jalankan manual dengan:
 
+```bash
 npm run eval:matrics
+```
 
 📊 Report
 
 Ada dua jenis report yang bakal terbentuk:
 
-Allure Report (untuk Web UI Automation)
+1. Allure Report (untuk Web UI Automation)
 
-Generate report di terminal:
+Generate report di terminal
 
+```bash
 npm run allure:generate
+```
 
 
 Buka report di browser:
 
+```bash
 npm run allure:open
+```
 
 
-Mochawesome Report (untuk Eval Matrics)
+2. Mochawesome Report (untuk Eval Matrics)
 
-Otomatis terbentuk folder reports/
+Otomatis terbentuk folder **reports/**
 
-Di dalamnya ada file .html
+Di dalamnya ada file **.html**
 
 Buka file itu langsung di browser
 
@@ -76,12 +84,9 @@ Pergi ke tab Actions
 
 Pilih job manual dan jalankan
 
-Tunggu sampai stage generate-report selesai
+Tunggu sampai stage **generate-report** selesai
 
 Akan muncul 2 link report:
 
-Satu untuk Allure
-
-Satu untuk Mochawesome
-
-✨ Selamat mencoba, semoga lancar tanpa drama!
+1. Satu untuk Allure
+2. Satu untuk Mochawesome
