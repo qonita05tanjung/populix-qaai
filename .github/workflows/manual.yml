@@ -57,23 +57,69 @@ jobs:
       
       - name: Prepare site folder
         run: |
-          mkdir -p site
+          set -e
+          RUN_DIR="runs/${GITHUB_RUN_NUMBER}-${GITHUB_RUN_ATTEMPT}"
+          mkdir -p "site/${RUN_DIR}"
+
           if [ -d allure-report ]; then
-            mkdir -p site/allure
-            cp -r allure-report/* site/allure/
+            mkdir -p "site/${RUN_DIR}/allure"
+            cp -r allure-report/* "site/${RUN_DIR}/allure/"
           fi
+
           if [ -d reports ]; then
-            mkdir -p site/mochawesome
-            cp -r reports/* site/mochawesome/
+            mkdir -p "site/${RUN_DIR}/mochawesome"
+            cp -r reports/* "site/${RUN_DIR}/mochawesome/"
           fi
-          
+
+          rm -rf site/latest
+          mkdir -p site/latest
+          if [ -d "site/${RUN_DIR}/allure" ]; then
+            mkdir -p site/latest/allure
+            cp -r "site/${RUN_DIR}/allure/"* site/latest/allure/
+          fi
+          if [ -d "site/${RUN_DIR}/mochawesome" ]; then
+            mkdir -p site/latest/mochawesome
+            cp -r "site/${RUN_DIR}/mochawesome/"* site/latest/mochawesome/
+          fi
+
           cat > site/index.html <<'HTML'
-          <h2>Test Reports</h2>
+          <!doctype html>
+          <meta http-equiv="refresh" content="0; url=./latest/">
+          <title>Redirecting…</title>
+          <a href="./latest/">Go to latest report</a>
+          HTML
+
+          mkdir -p site/latest
+          cat > site/latest/index.html <<'HTML'
+          <!doctype html>
+          <h2>Test Reports (Latest)</h2>
           <ul>
             <li><a href="./allure/index.html">Allure Report</a></li>
-            <li><a href="./mochawesome/mocha-report.html">Mochawesome Report</a> (atau pilih file .html lain)</li>
+            <li><a href="./mochawesome/mocha-report.html">Mochawesome Report</a></li>
           </ul>
+          <p><a href="../">See archive</a></p>
           HTML
+
+          cat > site/README.html <<'HTML'
+          <!doctype html>
+          <h2>Reports Archive</h2>
+          <p><a href="./latest/">Latest</a></p>
+          <ul>
+          HTML
+          for d in $(ls -1 site/runs | sort -Vr); do
+            echo "<li><a href=\"./runs/$d/\">$d</a></li>" >> site/README.html
+          done
+          echo "</ul>" >> site/README.html
+
+          cat > site/runs/index.html <<'HTML'
+          <!doctype html>
+          <h2>Runs</h2>
+          <ul>
+          HTML
+          for d in $(ls -1 site/runs | sort -Vr); do
+            echo "<li><a href=\"./$d/\">$d</a></li>" >> site/runs/index.html
+          done
+          echo "</ul>" >> site/runs/index.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
